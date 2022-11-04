@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>footer fragment</title>
+</head>
+<body>
+<th:block th:fragment="footerWithScripts">
+    <footer class="border-top bg-dark">
+        <div class="container py-4">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <ul class="list-inline text-center">
+                        <li class="list-inline-item">
+                            <a th:href="@{{url}(url = (#{app.footer.twitterLink}))}" class="link-dark">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a th:href="@{{url}(url = (#{app.footer.facebookLink}))}" class="link-dark">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                                    </span>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a th:href="@{{url}(url = (#{app.footer.githubLink}))}" class="link-dark">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="small text-center text-muted fst-italic">Copyright &copy;
+                        <th:block th:text="#{app.name}"></th:block><th:block th:text ="${' '+#temporals.format(#temporals.createNow(),'yyy')}"></th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+</th:block>
+</body>
+</html>
