@@ -19,6 +19,8 @@
         <label for="title">Title</label>
         <input type="text" class="form-control" id="title" maxlength="255"
                placeholder="Enter Title" name="title" th:field="*{title}"/>
+        <p th:if="${#fields.hasErrors('title')}" class="text-danger"
+           th:errors="*{title}"></p>
       </div>
       <div class="form-group card-body">
         <label for="shortDescription">Short Description</label>
@@ -26,7 +28,6 @@
                placeholder="Enter Short Description" name="shortDescription" th:field="*{shortDescription}"/>
         <p th:if="${#fields.hasErrors('shortDescription')}" class="text-danger"
            th:errors="*{shortDescription}"></p>
-
       </div>
       <div class="form-group card-body">
         <label for = "content">Content</label>

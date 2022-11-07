@@ -7,18 +7,22 @@
 <body>
 <div th:replace="blog/common/navbar::navbar('home')"></div>
 <div class="container">
-    <h3>Search Post</h3>
     <form class="form-inline my-2 d-flex align-items-center" th:action="@{/search}">
-        <input class="form-control my-2 mr-sm-2" type="search" placeholder="Search" name="query" aria-label="Search">
-        <button class="btn btn-dark my-2 my-sm-0" style = "height: fit-content; margin: 10px" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <input class="form-control my-2 mr-sm-2" type="search" required placeholder="Search" name="query" aria-label="Search">
+        <input class="form-control my-2 mr-sm-2" type="hidden" value ="1" name="page" aria-label="page">
+        <button class="btn btn-dark my-2 my-sm-0" style="height: fit-content; margin: 10px" type="submit"><i
+                class="fa-solid fa-magnifying-glass"></i></button>
     </form>
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
             <div class="post-preview" th:each="post:${postsResponse}">
                 <a th:href="@{/post/{url}(url=${post.url})}"
                    class="text-decoration-none text-dark ">
-                    <h1 class="post-title" th:text="${post.title.length>50?post.title.substring(0,50)+' ...':post.title}">Post title</h1>
-                    <p class="fs-7" th:text="${post.shortDescription.length>120?post.shortDescription.substring(0,120)+' ....':post.shortDescription}">Post short description</p>
+                    <h1 class="post-title"
+                        th:text="${post.title.length>50?post.title.substring(0,50)+' ...':post.title}">Post title</h1>
+                    <p class="fs-7"
+                       th:text="${post.shortDescription.length>120?post.shortDescription.substring(0,120)+' ....':post.shortDescription}">
+                        Post short description</p>
                 </a>
                 <p class="post-meta fw-light fst-italic text-secondary"> Posted by
                     <a href="#" class=" text-decoration-none text-dark" th:text="#{app.admin.name}">Admin</a>
@@ -27,8 +31,10 @@
                 </p>
                 <hr class="my-2">
             </div>
-            <div class="d-flex justify-content-end mb-4"><a class="btn btn-dark text-uppercase" href="#">Older Posts
-                →</a></div>
+            <div class="d-flex justify-content-between mb-4">
+                <a class="btn btn-dark text-uppercase" th:href="@{${pageNo>1?'/page/'+(pageNo - 1):'#'}}">&larr; Prev</a>
+                <a class="btn btn-dark text-uppercase" th:href="@{${totalPosts>0 && totalPosts> pageNo * 6?'/page/'+(pageNo+1):'#'}}">Next →</a>
+            </div>
         </div>
     </div>
 </div>

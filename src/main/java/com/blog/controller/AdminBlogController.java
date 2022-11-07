@@ -3,6 +3,7 @@ package com.blog.controller;
 
 import com.blog.dto.PostDto;
 import com.blog.mapper.PostMapper;
+import com.blog.models.AlertMessage;
 import com.blog.services.PostService;
 import com.blog.utils.UrlUtils;
 import jakarta.validation.Valid;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 
 @Controller
@@ -27,61 +29,69 @@ public class AdminBlogController {
     }
 
     @GetMapping("/admin/posts")
-    String Posts(Model model){
-        model.addAttribute("posts",postService.getAllPosts());
+    String Posts(Model model) {
+        model.addAttribute("posts", postService.getAllPosts());
         return "admin/posts";
     }
-    @GetMapping("/admin/posts/search")
-    String searchPost(Model model,@RequestParam("query") String query){
 
-        model.addAttribute("posts",postService.searchPosts(query));
+    @GetMapping("/admin/posts/search")
+    String searchPost(@RequestParam("query") String query,Model model) {
+        model.addAttribute("posts", postService.searchPosts(query));
         return "admin/posts";
     }
 
     @GetMapping("/admin/post/create-post")
-    String createPost(Model model){
-        model.addAttribute("post",new PostDto());
+    String createPost(Model model) {
+        if(!model.containsAttribute("post"))
+            model.addAttribute("post", new PostDto());
         return "admin/create_post";
     }
 
     @PostMapping("/admin/post/save-post")
-    String savePost(@ModelAttribute("post") @Valid  PostDto post, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            return "admin/create_post";
+    RedirectView savePost(@ModelAttribute("post") @Valid PostDto post, BindingResult bindingResult, RedirectAttributes attr) {
+        if (bindingResult.hasErrors()) {
+            attr.addFlashAttribute("org.springframework.validation.BindingResult.post", bindingResult);
+            attr.addFlashAttribute("post",post);
+            return new RedirectView("/admin/post/create-post");
         }
         post.setUrl(UrlUtils.getUrl(post.getTitle()));
         postService.savePost(post);
-        return "redirect:/admin/posts";
+        attr.addFlashAttribute("msg", new AlertMessage("Created", "Post created successfully.", "success"));
+        return new RedirectView("/admin/posts");
     }
 
     @GetMapping("/admin/post/")
-    String viewPost(@RequestParam("postUrl") String url,ModelMap modelMap){
-        modelMap.addAttribute("post",postService.getPostByUrl(url));
+    String viewPost(@RequestParam("postUrl") String url, ModelMap modelMap) {
+        modelMap.addAttribute("post", postService.getPostByUrl(url));
         return "/admin/view_post";
     }
 
     @GetMapping("/admin/post/edit")
-    String editPost(@RequestParam("postId") Long postId, ModelMap modelMap){
+    String editPost(@RequestParam("postId") Long postId, ModelMap modelMap) {
         PostDto postDto = PostMapper.PostToPostDto(postService.getPostById(postId));
-        modelMap.addAttribute("post",postDto);
+        modelMap.addAttribute("post", postDto);
         return "/admin/edit_post";
     }
 
     @PostMapping("/admin/post/edit")
-    String commitEditPost(@ModelAttribute("post") PostDto postDto, RedirectAttributes redirectAttributes) {
+    String commitEditPost(@ModelAttribute("post")@Valid PostDto postDto, BindingResult result,RedirectAttributes redirectAttributes) {
         postDto.setUrl(UrlUtils.getUrl(postDto.getTitle()));
+        if(result.hasErrors()){
+            return "/admin/edit_post";
+        }
         int res = postService.updatePost(PostMapper.PostDtoToPost(postDto));
-        if(res==PostService.STATUS_SUCCESS){
-            System.out.println("Successful");
-        }else{
-            System.out.println("    Fail");
+        if (res == PostService.STATUS_SUCCESS) {
+            redirectAttributes.addFlashAttribute("msg",new AlertMessage("Updated","Post Successfully updated","primary"));
+        } else {
+            redirectAttributes.addFlashAttribute("msg",new AlertMessage("Fail","Post not updated","danger"));
         }
         return "redirect:/admin/posts";
     }
 
     @GetMapping("/admin/post/delete")
-    String deletePost(@RequestParam("postId") Long id) {
+    String deletePost(@RequestParam("postId") Long id,RedirectAttributes redirectAttributes) {
         postService.deletePostById(id);
+        redirectAttributes.addFlashAttribute("msg",new AlertMessage("Deleted","Post deleted successfully","danger"));
         return "redirect:/admin/posts";
     }
 

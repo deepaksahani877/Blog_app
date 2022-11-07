@@ -6,15 +6,17 @@ import com.blog.mapper.PostMapper;
 import com.blog.repositories.PostRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class PostServiceImpl implements PostService{
+public class PostServiceImpl implements PostService {
     final PostRepository postRepository;
-    public PostServiceImpl(PostRepository postRepository){
+
+    public PostServiceImpl(PostRepository postRepository) {
         this.postRepository = postRepository;
     }
 
@@ -41,7 +43,7 @@ public class PostServiceImpl implements PostService{
         int status = 0;
         try {
             postRepository.save(post);
-        }catch (Exception e){
+        } catch (Exception e) {
             status = -1;
         }
         return status;
