@@ -2,8 +2,6 @@ package com.blog.services;
 
 import com.blog.dto.PostDto;
 import com.blog.entities.Post;
-import com.blog.mapper.PostMapper;
-
 import java.util.List;
 
 public interface PostService {

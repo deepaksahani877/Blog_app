@@ -1,7 +1,10 @@
 package com.blog.controller;
 
+import com.blog.dto.CommentDto;
 import com.blog.dto.PostDto;
+import com.blog.services.CommentService;
 import com.blog.services.PostService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -16,8 +19,10 @@ import java.util.List;
 public class BlogController {
 
     final PostService postService;
-    public BlogController(PostService postService) {
+    final CommentService commentService;
+    public BlogController(PostService postService, CommentService commentService) {
         this.postService = postService;
+        this.commentService = commentService;
     }
 
     @GetMapping(value = "/")
@@ -36,15 +41,16 @@ public class BlogController {
         model.addAttribute("postsResponse",getPostByPageNo(posts,page));
         model.addAttribute("pageNo",page);
         model.addAttribute("query",query);
-        System.out.println("///////////////////////////////////");
-        System.out.println(query+"  "+getPostByPageNo(posts,page).size()+"  "+page+"  "+posts.size());
         model.addAttribute("totalPosts",posts.size());
         return "blog/search_post";
     }
 
     @GetMapping("/post/{url}")
     String viewPost(@PathVariable("url") String url, ModelMap model){
-        model.addAttribute("post", postService.getPostByUrl(url));
+        PostDto post =  postService.getPostByUrl(url);
+        model.addAttribute("post",post);
+        model.addAttribute("comments",commentService.getAllComments(post.getId()));
+        model.addAttribute("comment",new CommentDto());
         return "blog/view_post";
     }
 

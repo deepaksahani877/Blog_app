@@ -5,8 +5,6 @@ import com.blog.entities.Post;
 import com.blog.mapper.PostMapper;
 import com.blog.repositories.PostRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;

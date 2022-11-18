@@ -1,12 +1,15 @@
 package com.blog.controller;
 
 
+import com.blog.dto.CommentDto;
 import com.blog.dto.PostDto;
 import com.blog.mapper.PostMapper;
 import com.blog.models.AlertMessage;
+import com.blog.services.CommentService;
 import com.blog.services.PostService;
 import com.blog.utils.UrlUtils;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -22,10 +25,13 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class AdminBlogController {
 
-    final PostService postService;
+    private final PostService postService;
+    @Autowired
+    private final CommentService commentService;
 
-    public AdminBlogController(PostService postService) {
+    public AdminBlogController(PostService postService, CommentService commentService) {
         this.postService = postService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/admin/posts")
@@ -62,7 +68,10 @@ public class AdminBlogController {
 
     @GetMapping("/admin/post/")
     String viewPost(@RequestParam("postUrl") String url, ModelMap modelMap) {
-        modelMap.addAttribute("post", postService.getPostByUrl(url));
+        modelMap.addAttribute("comment",new CommentDto());
+        PostDto post = postService.getPostByUrl(url);
+        modelMap.addAttribute("comments",commentService.getAllComments(post.getId()));
+        modelMap.addAttribute("post", post);
         return "/admin/view_post";
     }
 
