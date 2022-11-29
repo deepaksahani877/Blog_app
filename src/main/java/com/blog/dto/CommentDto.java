@@ -1,5 +1,6 @@
 package com.blog.dto;
 
+import com.blog.entities.Post;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -21,4 +22,5 @@ public class CommentDto {
     private String content;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
+    private Post post;
 }

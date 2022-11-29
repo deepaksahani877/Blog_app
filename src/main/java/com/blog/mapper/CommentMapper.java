@@ -12,6 +12,7 @@ public class CommentMapper {
                 .content(comment.getContent())
                 .createdOn(comment.getCreatedOn())
                 .updatedOn(comment.getUpdatedOn())
+                .post(comment.getPost())
                 .build();
     }
 
@@ -24,6 +25,7 @@ public class CommentMapper {
                 .content(commentDto.getContent())
                 .createdOn(commentDto.getCreatedOn())
                 .updatedOn(commentDto.getUpdatedOn())
+                .post(commentDto.getPost())
                 .build();
     }
 

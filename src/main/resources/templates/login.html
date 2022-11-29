@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring Boot Thymeleaf Blog App</title>
+    <th:block th:replace="/blog/common/head::head-fragment"></th:block>
+</head>
+<body>
+<nav th:replace="/blog/common/navbar::navbar('register')"></nav>
+<div class="container">
+    <div class="row col-md-8 offset-md-2">
+        <div th:if="${param.error}" class="mt-4">
+            <div class="alert alert-danger">Invalid email or password.</div>
+        </div>
+        <div th:if="${param.logout}" class="mt-4">
+            <div class="alert alert-success"> You have been logged out.</div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-center">Login Form</h2>
+            </div>
+            <div class="card-body">
+                <form
+                        method="post"
+                        th:action="@{/login}"
+                        class="form-horizontal"
+                        role="form"
+                >
+                    <div class="form-group mb-3">
+                        <label class="control-label" for="username">Email *</label>
+                        <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                class="form-control"
+                                placeholder="Enter email address"
+                        />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="control-label" for="password">Password *</label>
+                        <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-control"
+                                placeholder="Enter password"
+                        />
+                    </div>
+                    <div class="form-group mb-3">
+                        <span> Not registered yet?
+                            <a th:href="@{/register}">Register Here</a>
+                        </span><br><br>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br/><br/><br/>
+<div th:replace="blog/common/footer.html :: footerWithScripts"></div>
+</body>
+</html>

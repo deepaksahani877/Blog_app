@@ -33,8 +33,18 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public List<CommentDto> getAllComments(long postId) {
+    public List<CommentDto> getAllCommentsById(long postId) {
         List<Comment> comments = commentRepository.getCommentByPostId(postId);
         return comments.stream().map(CommentMapper::mapToCommentDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CommentDto> getAllComments() {
+        return commentRepository.findAll().stream().map((CommentMapper::mapToCommentDto)).collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteComment(long id) {
+        commentRepository.deleteById(id);
     }
 }

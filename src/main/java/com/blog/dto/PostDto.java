@@ -1,11 +1,9 @@
 package com.blog.dto;
 
-import com.blog.entities.Comment;
+
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
-
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor

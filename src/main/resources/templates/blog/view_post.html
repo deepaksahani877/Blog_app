@@ -52,7 +52,7 @@
 
             <div class="col-lg-4 col-md-5 col-sm-4 offset-md-1 offset-sm-1 col-12 my-4">
                 <h4>Leave a comment</h4>
-                <form class="card p-2" th:action = "@{/comments/{postUrl}(postUrl = ${post.url})}" th:object="${comment}">
+                <form class="card p-2" th:action = "@{/comments/{postUrl}(postUrl = ${post.url})}" method="post" th:object="${comment}">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" name="name" id="name" class="form-control" th:field="*{name}">
@@ -70,7 +70,7 @@
                         <label for="msg">Message</label>
                         <textarea name="content" id="msg" cols="30" rows="5" class="form-control" th:field="*{content}"></textarea>
                         <p th:if="${#fields.hasErrors('content')}" class="text-danger"
-                           th:errors="*{email}"></p>
+                           th:errors="*{content}"></p>
 
                     </div>
                     <div class="form-group d-flex justify-content-center m-4">

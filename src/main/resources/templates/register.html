@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring Boot Thymeleaf Blog App</title>
+    <th:block th:replace="/blog/common/head::head-fragment"></th:block>
+</head>
+<body>
+<div th:replace="blog/common/navbar.html :: navbar('register')"></div>
+<br/>
+<div class="container">
+    <div class="row col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-center">Registration</h2>
+            </div>
+
+            <div th:if="${param.success}">
+                <div class="alert alert-info">
+                    You have registered successfully to our Blog app!
+                </div>
+            </div>
+
+            <div class="card-body">
+                <form method="post"
+                      role="form"
+                      th:action="@{/register/save}"
+                      th:object="${user}">
+
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="firstName"> First Name</label>
+                        <input
+                                class="form-control"
+                                id="firstName"
+                                name="firstName"
+                                placeholder="Enter first name"
+                                type="text"
+                                th:field="*{firstName}"
+                        />
+                        <p th:if="${#fields.hasErrors('firstName')}" class="text-danger"
+                           th:errors="*{firstName}"></p>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="lastName"> Last Name</label>
+                        <input
+                                class="form-control"
+                                id="lastName"
+                                name="lastName"
+                                placeholder="Enter last name"
+                                type="text"
+                                th:field="*{lastName}"
+                        />
+                        <p th:if="${#fields.hasErrors('lastName')}" class="text-danger"
+                           th:errors="*{lastName}"></p>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="email"> Email-Id</label>
+                        <input
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                placeholder="Enter email address"
+                                type="email"
+                                th:field="*{email}"
+                        />
+
+                    </div>
+                    <p th:if="${#fields.hasErrors('email')}" class="text-danger"
+                       th:errors="*{email}"></p>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="password"> Password</label>
+                        <input
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                placeholder="Enter password"
+                                type="password"
+                                th:field="*{password}"
+                        />
+                        <p th:if="${#fields.hasErrors('password')}" class="text-danger"
+                           th:errors="*{password}"></p>
+
+                    </div>
+                    <div class="form-group mb-3">
+                        <span> Already registered?
+                            <a th:href="@{/login}"> Login Here</a>
+                        </span>
+                        <br><br>
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br/><br/><br/>
+<div th:replace="blog/common/footer.html :: footerWithScripts"></div>
+</body>
+</html>

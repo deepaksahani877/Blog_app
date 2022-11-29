@@ -6,13 +6,13 @@ import com.blog.dto.PostDto;
 import com.blog.services.CommentService;
 import com.blog.services.PostService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class CommentController {
@@ -23,11 +23,11 @@ public class CommentController {
         this.postService = postService;
     }
 
-    @RequestMapping("/comments/{postUrl}")
+    @RequestMapping(value = "/comments/{postUrl}",method = RequestMethod.POST)
     public String createComment(@PathVariable("postUrl") String postUrl, @Valid @ModelAttribute("comment")CommentDto comment, BindingResult bindingResult, Model model) {
         PostDto postDto = postService.getPostByUrl(postUrl);
         if(bindingResult.hasErrors()){
-            model.addAttribute("comments",commentService.getAllComments(postDto.getId()));
+            model.addAttribute("comments",commentService.getAllCommentsById(postDto.getId()));
             model.addAttribute("post",postDto);
             model.addAttribute("comment",comment);
             return "blog/view_post";

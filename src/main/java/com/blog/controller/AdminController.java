@@ -9,7 +9,6 @@ import com.blog.services.CommentService;
 import com.blog.services.PostService;
 import com.blog.utils.UrlUtils;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -23,13 +22,11 @@ import org.springframework.web.servlet.view.RedirectView;
 
 
 @Controller
-public class AdminBlogController {
+public class AdminController {
 
     private final PostService postService;
-    @Autowired
     private final CommentService commentService;
-
-    public AdminBlogController(PostService postService, CommentService commentService) {
+    public AdminController(PostService postService, CommentService commentService) {
         this.postService = postService;
         this.commentService = commentService;
     }
@@ -70,7 +67,7 @@ public class AdminBlogController {
     String viewPost(@RequestParam("postUrl") String url, ModelMap modelMap) {
         modelMap.addAttribute("comment",new CommentDto());
         PostDto post = postService.getPostByUrl(url);
-        modelMap.addAttribute("comments",commentService.getAllComments(post.getId()));
+        modelMap.addAttribute("comments",commentService.getAllCommentsById(post.getId()));
         modelMap.addAttribute("post", post);
         return "/admin/view_post";
     }
@@ -104,5 +101,17 @@ public class AdminBlogController {
         return "redirect:/admin/posts";
     }
 
+    @GetMapping("/admin/comment")
+    String comments(Model model){
+        model.addAttribute("comments", commentService.getAllComments());
+        return "admin/comments";
+    }
+    @GetMapping("/admin/comment/delete")
+    String deleteComment(Model model,@RequestParam("id") long id, RedirectAttributes redirectAttributes){
+        commentService.deleteComment(id);
+        model.addAttribute("comments", commentService.getAllComments());
+        redirectAttributes.addFlashAttribute("msg",new AlertMessage("Deleted","Comment Deleted Successfully","danger"));
+        return "redirect:/admin/comment";
+    }
 
 }

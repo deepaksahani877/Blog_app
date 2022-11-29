@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PostService {
     int STATUS_SUCCESS = 0;
-    int STATUS_FAIL = -1;
+//    int STATUS_FAIL = -1;
     List<PostDto> getAllPosts();
     void savePost(PostDto postDto);
     Post getPostById(Long id);

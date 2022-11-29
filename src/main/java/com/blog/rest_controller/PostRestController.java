@@ -3,10 +3,7 @@ package com.blog.rest_controller;
 import com.blog.dto.PostDto;
 import com.blog.mapper.PostMapper;
 import com.blog.services.PostService;
-import com.blog.utils.UrlUtils;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
