@@ -48,7 +48,7 @@ public class BlogController {
     String viewPost(@PathVariable("url") String url, ModelMap model){
         PostDto post =  postService.getPostByUrl(url);
         model.addAttribute("post",post);
-        model.addAttribute("comments",commentService.getAllCommentsById(post.getId()));
+        model.addAttribute("comments",post.getComments());
         model.addAttribute("comment",new CommentDto());
         return "blog/view_post";
     }

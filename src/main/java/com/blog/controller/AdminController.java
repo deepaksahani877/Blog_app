@@ -67,7 +67,7 @@ public class AdminController {
     String viewPost(@RequestParam("postUrl") String url, ModelMap modelMap) {
         modelMap.addAttribute("comment",new CommentDto());
         PostDto post = postService.getPostByUrl(url);
-        modelMap.addAttribute("comments",commentService.getAllCommentsById(post.getId()));
+        modelMap.addAttribute("comments",post.getComments());
         modelMap.addAttribute("post", post);
         return "/admin/view_post";
     }
@@ -101,7 +101,7 @@ public class AdminController {
         return "redirect:/admin/posts";
     }
 
-    @GetMapping("/admin/comment")
+    @GetMapping("/admin/comments")
     String comments(Model model){
         model.addAttribute("comments", commentService.getAllComments());
         return "admin/comments";
@@ -109,9 +109,8 @@ public class AdminController {
     @GetMapping("/admin/comment/delete")
     String deleteComment(Model model,@RequestParam("id") long id, RedirectAttributes redirectAttributes){
         commentService.deleteComment(id);
-        model.addAttribute("comments", commentService.getAllComments());
         redirectAttributes.addFlashAttribute("msg",new AlertMessage("Deleted","Comment Deleted Successfully","danger"));
-        return "redirect:/admin/comment";
+        return "redirect:/admin/comments";
     }
 
 }

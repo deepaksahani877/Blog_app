@@ -27,7 +27,7 @@ public class CommentController {
     public String createComment(@PathVariable("postUrl") String postUrl, @Valid @ModelAttribute("comment")CommentDto comment, BindingResult bindingResult, Model model) {
         PostDto postDto = postService.getPostByUrl(postUrl);
         if(bindingResult.hasErrors()){
-            model.addAttribute("comments",commentService.getAllCommentsById(postDto.getId()));
+            model.addAttribute("comments",postDto.getComments());
             model.addAttribute("post",postDto);
             model.addAttribute("comment",comment);
             return "blog/view_post";

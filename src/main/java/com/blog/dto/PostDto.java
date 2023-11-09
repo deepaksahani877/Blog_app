@@ -23,6 +23,4 @@ public class PostDto{
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
     private Set<CommentDto> comments;
-
-
 }

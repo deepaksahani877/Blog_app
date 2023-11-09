@@ -24,7 +24,7 @@
         <th scope="col">comment</th>
         <th scope="col">created On</th>
         <th scope="col">updated On</th>
-        <th scope="col">post_id</th>
+<!--        <th scope="col">post_id</th>-->
         <th scope="col" style="width:32%;">Actions</th>
       </tr>
       </thead>
@@ -36,7 +36,7 @@
         <td th:text="${comment.content}"></td>
         <td th:text="${#temporals.format(comment.createdOn,'dd MMM yyyy')}"></td>
         <td th:text="${#temporals.format(comment.updatedOn,'dd MMM yyyy')}"></td>
-        <td th:text="${comment.post.id}"></td>
+<!--        <td th:text="${comment.post.id}"></td>-->
         <td class="table-cell align-middle text-center">
           <a th:href="@{/admin/comment/delete(id = ${comment.id})}" class="btn btn-danger m-2">Delete</a>
         </td>
