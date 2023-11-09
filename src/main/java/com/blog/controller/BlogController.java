@@ -16,7 +16,6 @@ import java.util.List;
 
 @Controller
 public class BlogController {
-
     final PostService postService;
     final CommentService commentService;
     public BlogController(PostService postService, CommentService commentService) {
